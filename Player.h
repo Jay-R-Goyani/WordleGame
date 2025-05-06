@@ -51,7 +51,7 @@ public:
         return totalscore;
     }
 
-    int setscore(int sco){
+    void setscore(int sco){
         totalscore += sco;
     }
 
