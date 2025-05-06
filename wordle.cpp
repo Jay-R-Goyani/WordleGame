@@ -45,8 +45,20 @@ int main()
     srand(static_cast<unsigned>(time(nullptr)));
     UserManager um;
     Player *current = nullptr;
-    vector<string> wordList = {"apple", "world", "crate", "point", "table", "plant", "score", "piano", "magic", "light"};
-
+    vector<string> wordList = {
+        "apple", "world", "crate", "point", "table", "plant", "score", "piano", "magic", "light",
+        "brush", "candy", "dream", "eagle", "field", "grape", "house", "jelly", "knife", "lemon",
+        "mouse", "night", "ocean", "pride", "queen", "river", "stone", "tiger", "uncle", "vivid",
+        "whale", "xenon", "youth", "zebra", "angel", "beach", "cloud", "drama", "earth", "flame",
+        "globe", "happy", "image", "juice", "karma", "lucky", "medal", "noble", "orbit", "peace",
+        "quick", "robot", "smile", "trust", "unity", "value", "wheat", "xylem", "zesty", "arise",
+        "bloom", "clear", "daisy", "event", "fresh", "giant", "honor", "ideal", "jumpy", "kneel",
+        "laugh", "match", "nerve", "offer", "party", "quest", "royal", "shade", "trend", "upper",
+        "vocal", "worry", "xenon", "yield", "zippy", "acorn", "bliss", "charm", "doubt", "enter",
+        "flare", "grasp", "hurry", "inbox", "jewel", "known", "loyal", "merry", "needy", "openy",
+        "plain", "quiet", "rider", "speak", "tempo", "urban", "voter", "witty", "xerox", "young"
+    };
+    
     while (true)
     {
         clearScreen();
