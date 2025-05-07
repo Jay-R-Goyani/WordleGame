@@ -106,7 +106,7 @@ public:
             }
         }
 
-        int score = won ? (maxAttempts - attempts + 1) * 1000 : 0;
+        int score = won ? (maxAttempts - attempts + 1) * 250 : 0;
         cout << BOLD;
         if (won)
         {
