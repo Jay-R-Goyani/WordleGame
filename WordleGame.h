@@ -52,10 +52,17 @@ private:
     Player *p;
     int availableLifelines;
     int idxRevealChecked[5] = {0};
+    bool gameValid = true;
 
 public:
-    WordleGame(const string &word, Player *p) : secretWord(word), p(p)
+    WordleGame(const string &word, Player *playerPtr) : secretWord(word), p(playerPtr)
     {
+        if (p == nullptr) {
+            cerr << RED << BOLD << "Critical Error: WordleGame created with a null Player pointer!" << RESET << endl;
+            gameValid = false;
+            return;
+        }
+
         for (char c = 'a'; c <= 'z'; c++)
         {
             keys[c] = true;
@@ -65,6 +72,10 @@ public:
 
     int play()
     {
+        if (!gameValid) {
+            cout << RED << BOLD << "Cannot start game: Game is in an invalid state (Player not set)." << RESET << endl;
+            return 0;
+        }
         clearScreen();
         cout << BOLD << GREEN << "Get ready to guess!" << RESET << endl;
         cout << "The word has 5 letters. You have " << maxAttempts << " tries." << endl;
@@ -124,6 +135,7 @@ public:
 private:
     void showLifeline()
     {
+        if (!gameValid) return;
         if (availableLifelines == 0)
         {
             cout << RED << "No lifelines left this game.\n"
@@ -152,7 +164,7 @@ private:
 
         if (cmd == "reveal" && (availableLifelines & LIFELINE_REVEAL) && score >= 100)
         {
-            p->setscore(-100);
+            p->updateScore(-100);
             int idx;
             vector<int> unrevealed;
             for (int i = 0; i < 5; ++i)
@@ -178,13 +190,13 @@ private:
         }
         else if (cmd == "eliminate" && (availableLifelines & LIFELINE_ELIMINATE) && score >= 200)
         {
-            p->setscore(-200);
+            p->updateScore(-200);
             vector<char> pool;
             for (char c = 'a'; c <= 'z'; ++c)
                 if (keys[c] && secretWord.find(c) == string::npos)
                     pool.push_back(c);
             shuffle(pool.begin(), pool.end(), mt19937{random_device{}()});
-            cout << YELLOW << "Eliminated:";
+            cout << RED << "Eliminated:";
             for (int i = 0; i < 5 && i < pool.size(); ++i)
             {
                 keys[pool[i]] = false;
@@ -195,7 +207,7 @@ private:
         }
         else if (cmd == "extra" && (availableLifelines & LIFELINE_EXTRA) && score >= 300)
         {
-            p->setscore(-300);
+            p->updateScore(-300);
             maxAttempts++;
             cout << CYAN << "One extra attempt granted!\n"
                  << RESET;
@@ -212,6 +224,7 @@ private:
 
     void displayKeyboard()
     {
+        if (!gameValid) return;
         string row1 = "qwertyuiop";
         string row2 = "asdfghjkl";
         string row3 = "zxcvbnm";
@@ -249,12 +262,14 @@ private:
 
     bool isValidGuess(const string &g)
     {
+        if (!gameValid) return false;
         if (g.size() != 5)
             return false;
         return all_of(g.begin(), g.end(), ::isalpha);
     }
     void giveFeedback(const string &guess)
     {
+        if (!gameValid) return;
         vector<string> colors(5, "gray");
         vector<bool> secretUsed(5, false);
 
