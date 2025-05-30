@@ -29,4 +29,11 @@ public:
     {
         return hash<string>()(pwd) == passwordHash;
     }
+
+    // Virtual function for polymorphism
+    virtual void displayDetails() const {
+        cout << "Username: " << username << endl;
+        cout << "Date of Birth: " << DOB << endl;
+        cout << "Gender: " << gender << endl;
+    }
 };

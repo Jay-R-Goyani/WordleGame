@@ -74,6 +74,16 @@ public:
         cout << "Gender: " << gender << endl;
     }
 
+    // Override the virtual function from the base class
+    void displayDetails() const override {
+        // Call the base class method to display common user details
+        User::displayDetails();
+        // Display player-specific details
+        cout << "Total Games Played: " << totalGames << endl;
+        cout << "Highest Score Achieved: " << maxScore << endl;
+        cout << "Current Session Score: " << totalscore << endl;
+    }
+
     // Serialization for file storage
     string serialize() const
     {
@@ -89,7 +99,7 @@ public:
     {
         // If the line itself is empty, getline in UserManager::load might skip it,
         // but if it contains only whitespace, it might be processed here.
-        cout<<line<<endl;
+        // cout<<line<<endl;
         if (line.empty() || std::all_of(line.begin(), line.end(), ::isspace)) {
             // Optionally print a message if you want to be notified of purely blank lines being processed
             // cerr << "Debug: Skipping empty or whitespace-only line in deserialize." << endl;
